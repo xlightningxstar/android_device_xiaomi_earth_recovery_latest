@@ -1,12 +1,14 @@
+#
+# Copyright (C) 2024 The Android Open Source Project
+# Copyright (C) 2024 SebaUbuntu's TWRP device tree generator
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
 LOCAL_PATH := device/xiaomi/earth
 
-# Recovery UI
-TARGET_SCREEN_WIDTH := 720
-TARGET_SCREEN_HEIGHT := 1650
-
-# Virtual A/B
-ENABLE_VIRTUAL_AB := true
-$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
+# Dynamic Partitions
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
 # VNDK
 PRODUCT_TARGET_VNDK_VERSION := 31
@@ -17,29 +19,37 @@ PRODUCT_SHIPPING_API_LEVEL := 31
 # Dynamic Partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
-# Soong
-PRODUCT_SOONG_NAMESPACES += \
-    $(LOCAL_PATH)
+# Virtual A/B
+ENABLE_VIRTUAL_AB := true
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
 
 # Update Engine & Update Verifier 
 PRODUCT_PACKAGES += \
     update_engine \
-    update_verifier \
-    update_engine_sideload
+    update_engine_sideload \
+    update_verifier
 
 PRODUCT_PACKAGES_DEBUG += \
     update_engine_client
 
-# A/B
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
     POSTINSTALL_PATH_system=system/bin/otapreopt_script \
     FILESYSTEM_TYPE_system=ext4 \
     POSTINSTALL_OPTIONAL_system=true
 
+AB_OTA_POSTINSTALL_CONFIG += \
+    RUN_POSTINSTALL_vendor=true \
+    POSTINSTALL_PATH_vendor=bin/checkpoint_gc \
+    FILESYSTEM_TYPE_vendor=erofs \
+    POSTINSTALL_OPTIONAL_vendor=true
+
 PRODUCT_PACKAGES += \
-    otapreopt_script \
-    cppreopts.sh
+    update_engine \
+    update_engine_sideload \
+    update_verifier \
+    checkpoint_gc \
+    otapreopt_script
 
 # Boot control HAL
 PRODUCT_PACKAGES += \
@@ -54,19 +64,24 @@ PRODUCT_PACKAGES += \
     bootctrl.mt6768 \
     bootctrl.mt6768.recovery
 
-# Health HAL
+# create_pl_dev
 PRODUCT_PACKAGES += \
-    android.hardware.health@2.1-impl \
-    android.hardware.health@2.1-service
+    create_pl_dev \
+    create_pl_dev.recovery
+
+# Soong
+PRODUCT_SOONG_NAMESPACES += \
+    $(LOCAL_PATH)
 
 # Fastbootd
 PRODUCT_PACKAGES += \
     android.hardware.fastboot@1.1-impl-mock \
     fastbootd
 
+# Health HAL
 PRODUCT_PACKAGES += \
-    create_pl_dev \
-    create_pl_dev.recovery
+    android.hardware.health@2.1-impl \
+    android.hardware.health@2.1-service
 
 # Additional Libraries
 TARGET_RECOVERY_DEVICE_MODULES += \
