@@ -5,9 +5,6 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-# Inherit from this product for devices that support only 64-bit apps using:
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
-
 # Inherit from earth device.
 $(call inherit-product, device/xiaomi/earth/device.mk)
 
