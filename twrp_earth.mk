@@ -2,9 +2,6 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/base.mk)
 
-# Installs gsi keys into ramdisk, to boot a developer GSI with verified boot.
-$(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
-
 # Inherit from earth device.
 $(call inherit-product, device/xiaomi/earth/device.mk)
 
@@ -12,7 +9,7 @@ $(call inherit-product, device/xiaomi/earth/device.mk)
 $(call inherit-product, vendor/pb/config/common.mk)
 
 # Product Specifics
-PRODUCT_NAME := pb_earth
+PRODUCT_NAME := twrp_earth
 PRODUCT_DEVICE := earth
 PRODUCT_BRAND := Xiaomi
 PRODUCT_MANUFACTURER := Xiaomi
