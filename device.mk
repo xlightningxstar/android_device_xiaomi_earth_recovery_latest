@@ -8,6 +8,9 @@ TARGET_SCREEN_HEIGHT := 1650
 ENABLE_VIRTUAL_AB := true
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
 
+# Installs gsi keys into ramdisk, to boot a developer GSI with verified boot.
+$(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
+
 # VNDK
 PRODUCT_TARGET_VNDK_VERSION := 31
 
