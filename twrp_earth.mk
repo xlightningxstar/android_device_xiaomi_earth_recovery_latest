@@ -14,9 +14,6 @@
 # limitations under the License.
 #
 
-# Inherit from those products. Most specific first.
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
-
 # Inherit from earth device
 $(call inherit-product, device/xiaomi/earth/device.mk)
 
